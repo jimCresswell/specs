@@ -10,7 +10,7 @@ var fs = require('fs');
 // Sequential Gulp tasks
 var runSequence = require('run-sequence').use(gulp);
 
-var projectPaths = require('../../package.json')['paths'];
+var projectPaths = require('../../package.json').paths;
 var path = require('path');
 
 var cucumber = require('gulp-cucumber');
@@ -86,8 +86,6 @@ gulp.task('test:cucumber:fileoutput', 'Run Cucumber, only output JSON to file.',
   var stream = spawn('./node_modules/.bin/gulp', commandArgs);
 
   stream.stdout.setEncoding(baseEncoding);
-  stream.stderr.setEncoding(baseEncoding);
-  stream.stderr.pipe(fileStream);
   stream.stdout.pipe(fileStream);
   stream.on('close', function(e) {
     fileStream.end();

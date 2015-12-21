@@ -5,12 +5,12 @@ var path = require('path');
 
 // This config is purely to get correct directories for deletion, it
 // does not affect how the app is configured.
-var appConfig = require('../lib/configuration').set({
+var appConfig = require('../lib/configuration/app-config').set({
   rootPath: path.join(__dirname, '../')
 });
 
 module.exports = function() {
-  this.World = function World(callback) {
+  this.World = function World() {
     this.appPort = process.env.PORT || 3000;
 
     /**
@@ -28,8 +28,5 @@ module.exports = function() {
           }
         });
     };
-
-    // Done defining World.
-    callback();
   };
 };

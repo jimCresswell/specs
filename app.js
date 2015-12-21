@@ -18,7 +18,7 @@ var appVersion = require('./package.json').version;
 // this needs to happen before the
 // routes are required as they depend on
 // configuration state at require time.
-var appConfig = require('./lib/configuration').set({
+var appConfig = require('./lib/configuration/app-config').set({
   rootPath: process.env.SPECS_OUT_DIR || __dirname,
   allowInsecureSSL: process.env.SPECS_ALLOW_INSECURE_SSL
 });
@@ -28,11 +28,14 @@ var handlebarHelpers = require(path.join(__dirname,'views', 'helpers'));
 // Projects route, current Index.
 var projectsRoute = require('./routes/projects');
 
-// The individual feature/markdown file route.
-var featureRoute = require('./routes/feature');
-
 // The invidual project route.
 var projectRoute = require('./routes/project');
+
+// The individual feature/markdown file route within a given project.
+var featureRoute = require('./routes/feature');
+
+// The tag cloud and tag list routes for a given project.
+var tagViewRoutes = require('./routes/tagviews');
 
 
 var app = express();
@@ -55,6 +58,7 @@ hbs.registerHelper('newlines_to_breaks', handlebarHelpers.newlinesToBreaks);
 hbs.registerHelper('newlines_to_paragraphs', handlebarHelpers.newlinesToParagraphs);
 hbs.registerHelper('step_content', handlebarHelpers.stepContent);
 hbs.registerHelper('directory_path', handlebarHelpers.directoryPath);
+hbs.registerHelper('uri_encode', handlebarHelpers.uriEncodeString);
 
 /**
  * LOGGING.
@@ -106,7 +110,6 @@ app.get('/github-markdown-css/github-markdown.css', function(req, res, next) {
 // Vendor resources in bower_components/ routes.
 app.get('/bower/*', function(req, res, next) {
   var filePath = path.join(__dirname, 'bower_components', req.params[0]);
-  console.log(filePath);
   res.sendFile(filePath, {}, function(err) {
     if (err) {
       next(err);
@@ -123,8 +126,12 @@ app.use(projectsRoute);
 app.use(appConfig.projectRoute, projectRoute);
 
 // Markdown and feature files within a project.
-// htpp://host/project/<project name>/<root/to/file>
+// htpp://host/project/<project name>/file/<root/to/file>
 app.use(appConfig.projectRoute, featureRoute);
+
+// Tag cloud
+// htpp://host/project/<project name>/tagcloud
+app.use(appConfig.projectRoute, tagViewRoutes);
 
 // Catch 404 and forward to error handler.
 app.use(function(req, res, next) {

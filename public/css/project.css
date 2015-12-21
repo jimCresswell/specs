@@ -14,6 +14,29 @@ ul.file-list {
   text-transform: capitalize;
 }
 
+.project-summary {
+  margin: 1em 1em 0 1em;
+  background-color: #FAFAFA;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 0.3em;
+  box-shadow: 0.05em 0.1em 0.2em 0.01em rgb(220, 220, 220);
+}
+.project-summary li {
+  margin: 0.2em;
+}
+/**
+ * Wideview port (e.g. landscape tablet).
+ */
+@media (min-width: 800px) {
+  .project-summary li {
+    display: inline-block;
+  }
+  .project-summary li:not(:first-of-type) {
+    margin-left: 1em;
+  }
+}
+
+
 .project .controls {
   margin-bottom: 0;
   padding: 1em;
@@ -42,6 +65,12 @@ ul.file-list {
   margin: 0 0.6em 0 0;
 }
 
+.project .controls .hint {
+  font-size: 0.9em;
+  top: -0.6em;
+  margin-right: -0.3em;
+}
+
 .project .repository-controls {
   box-sizing: border-box;
   margin-bottom: 1em;
@@ -67,9 +96,23 @@ ul.file-list {
   min-width: 10em;
 }
 
+.project .tag-controls {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.project .tag-controls select {
+  min-width: 15em;
+}
+
+.project .tag-cloud-link-container {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 .project .burger-menu {
   position: relative;
-  font-size: 0.4em;
+  font-size: 0.5em;
   z-index: 99;
   display: block;
   margin: 0 0 0.5em 0.5em;
@@ -104,15 +147,26 @@ ul.file-list {
 
 .repo-link {
   font-size: 0.7em;
+}
+.tag-cloud-link,
+.info-link {
+  font-size: 0.8em;
+}
+.repo-link,
+.tag-cloud-link,
+.info-link {
+
   font-weight: bold;
   text-transform: uppercase;
   margin-right: 2em;
 }
-.repo-link a {
+.repo-link a,
+.info-link a {
   text-decoration: none;
   color: blue;
 }
-.repo-link:hover a {
+.repo-link:hover a,
+.info-link:hover a {
   color: green;
   text-decoration: underline;
 }
@@ -222,12 +276,23 @@ h2.directory-path {
   margin-bottom: 0;
 }
 
+.file-details .icon {
+  margin-right: 0.4em;
+  margin-bottom: 0.1em;
+}
+
+.file-container .feature-edit {
+  font-size: 0.9em;
+  float: right;
+  margin: 0.5em;
+  box-shadow: 0 0 0.3em 0.2em orange;
+}
+
 .feature-summary {
-  padding: 0.8em 0.5em 0.3em 0.5em;
+  padding: 0.8em 0.5em 0.5em 1em;
 }
 .feature-summary p {
   margin-bottom: 0.5em;
-  margin-left: 0.5em;
 }
 .feature-summary .feature-name {
   color: rgb(80, 134, 60);
@@ -235,11 +300,31 @@ h2.directory-path {
 }
 .feature-summary .feature-description {
   font-size: 0.8em;
-
   color: #999;
 
   /* Truncate the feature descriptions. */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.feature-summary ul.feature-scenarios {
+  text-align: center;
+}
+.feature-summary .feature-scenarios li {
+  font-size: 0.9em;
+  display: inline-block;
+  max-width: 10em;
+  vertical-align: middle;
+  padding: 0.4em;
+  margin: 0.2em;
+  border-radius: 0.3em;
+  background-color: #E5E5E5;
+}
+.feature-summary .feature-scenarios li:hover {
+  background-color: #F0F0F0;
+}
+.feature-summary .feature-scenarios li a {
+  text-decoration: none;
+  color: inherit;
 }
